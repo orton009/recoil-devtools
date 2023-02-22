@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Recoil Devtools",
+  "description": "Devtool to inspect atoms behaviour for recoil",
+  "version": "1.0",
+  "permissions": ["scripting", "tabs"],
+  "action": {
+    "default_popup": "dist/popup.html",
+    "default_icon": "icons/popup.png",
+    "default_title": "Click me"
+  },
+  "author": "drupadsingh98@gmail.com",
+  "content_scripts": [
+    {
+      "matches": ["https://*/", "http://*/"],
+      "css": [],
+      "js": ["./dist/contentScript.js"]
+    }
+  ],
+  "externally_connectable": {
+    "matches": ["https://*/", "https://*/"]
+  }
+}
