@@ -93,26 +93,23 @@ const attachListener = (listener, senderTag) => {
     });
   }
 };
-;// CONCATENATED MODULE: ./src/popup.js
+;// CONCATENATED MODULE: ./src/devtools/devtools.js
 
-console.log("loaded new version success!");
+console.log("loaded panel success!");
 (async function start() {
   try {
-    chrome.devtools.panels.create("Recoil Devtools", "../icons/popup.png", "../devtools.html", function (panel) {
-      console.log("panel created", panel);
-    });
-
-    // attachListener((msg) => {
-    //   console.log("[msg: recieved from contentScript]", msg);
-    // }, constants.contentScript);
-    // const tabId = await getTabId();
-    // await initiateConnection(tabId);
-
-    // const sent = await sendMessageViaTabId(
-    //   tabId,
-    //   new Message(undefined, "second message from extension")
-    // );
-    // console.log("[sent status]", sent);
+    attachListener(msg => {
+      console.log("[msg: recieved from contentScript]", msg);
+      try {
+        document.getElementById("content").innerHTML = JSON.stringify(msg.payload);
+      } catch (e) {
+        console.log("[error in html connection]", e);
+      }
+    }, constants.contentScript);
+    const tabId = await getTabId();
+    await initiateConnection(tabId);
+    const sent = await sendMessageViaTabId(tabId, new Message(undefined, "second message from extension"));
+    console.log("[sent status]", sent);
   } catch (e) {
     console.log("[runtime error]", e);
   }

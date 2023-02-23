@@ -10,6 +10,10 @@ module.exports = {
   entry: {
     popup: path.resolve(__dirname, "./src/popup.js"),
     contentScript: path.resolve(__dirname, "./src/contentScript.js"),
+    devtools: {
+      import: path.resolve(__dirname, "./src/devtools/devtools.js"),
+      filename: "../devtools.js",
+    },
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -45,6 +49,15 @@ module.exports = {
       title: "Welcome to sivaraj-v github ",
       template: "./src/popup.html",
       filename: "./popup.html",
+      meta: {
+        viewport: "width=device-width, initial-scale=1.0",
+        charset: "UTF-8",
+      },
+    }),
+    new HtmlWebpackPlugin({
+      title: "Recoil Devtools",
+      template: "./src/devtools/devtools.html",
+      filename: "../devtools.html",
       meta: {
         viewport: "width=device-width, initial-scale=1.0",
         charset: "UTF-8",
