@@ -1,13 +1,9 @@
-import React, { useCallback, useEffect } from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import { RecoilRoot } from "recoil";
 import {
   useRecoilCallback,
   useRecoilSnapshot,
   useRecoilTransactionObserver_UNSTABLE,
 } from "recoil";
+import React from "react";
 
 const postContentScriptLoaded = [];
 let isContentScriptLoaded = false;
@@ -84,13 +80,3 @@ export default function DebugObserver() {
   });
   return null;
 }
-
-ReactDOM.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <DebugObserver />
-      <App />
-    </RecoilRoot>
-  </React.StrictMode>,
-  document.getElementById("root")
-);

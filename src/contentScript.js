@@ -7,6 +7,8 @@ import {
   sendMessageViaRuntime,
 } from "./lib";
 
+import { getDiff } from "json-difference";
+
 console.log("injected content script success!");
 
 const pendingOutgoingMessages = [];
@@ -33,9 +35,30 @@ const verifyAtomsPayload = (payload) => {
 const processPayload = (payload) => {
   const p = verifyAtomsPayload(payload);
   if (p) {
-    console.log;
     storePayload(p.stateTransition);
+  } else {
+    console.error(
+      "[internal error] couldn't verify payload recieved from host"
+    );
   }
+};
+
+const getJSONDiff = (x, y) => {
+  const o = getDiff(x, y);
+  return [
+    ...o.added.reduce((acc, e) => {
+      acc.push(["+", e[0], e[1]]);
+      return acc;
+    }, []),
+    ...o.removed.reduce((acc, e) => {
+      acc.push(["-", e[0], e[1]]);
+      return acc;
+    }, []),
+    ...o.edited.reduce((acc, e) => {
+      acc.push(["~", e[0], e[1], e[2]]);
+      return acc;
+    }, []),
+  ];
 };
 
 const storePayload = (p) => {
@@ -43,8 +66,17 @@ const storePayload = (p) => {
     currentState: {},
     transitions: [],
   };
+  const oldValue = window.atomsStorage.currentState[p.atomName];
+  const transitionDiff = {
+    snapshotId: p.snapshotId,
+    atomName: p.atomName,
+    diffValue: getJSONDiff(
+      typeof oldValue === "undefined" || oldValue === null ? "" : oldValue,
+      p.atomValue
+    ),
+  };
   window.atomsStorage.currentState[p.atomName] = p.atomValue;
-  window.atomsStorage.transitions.push(p);
+  window.atomsStorage.transitions.push(transitionDiff);
 };
 
 const sendPayload_unsafe = async () => {
@@ -56,6 +88,13 @@ const sendPayload_unsafe = async () => {
 
 (async function start() {
   window.connectorInstance = new RegisterConnection(false);
+  window.postMessage(
+    {
+      payload: { isLoaded: true },
+      type: "FROM_CONTENT_SCRIPT",
+    },
+    "*"
+  );
 
   window.addEventListener(
     "message",
@@ -74,10 +113,12 @@ const sendPayload_unsafe = async () => {
         } catch (e) {
           console.log("[error in message from host]", e);
         }
+      } else {
       }
     },
     false
   );
+
   attachListener(async (msg) => {
     console.log("[recieved :msg]", msg);
     if (
@@ -85,6 +126,7 @@ const sendPayload_unsafe = async () => {
       msg.payload === constants.connectInit
     ) {
       console.log("[connection successful]");
+      await sendPayload_unsafe();
       window.connectorInstance.setConnectionStatus(true);
       // const sent = await sendMessageViaRuntime(
       //   new Message(undefined, "first message")
