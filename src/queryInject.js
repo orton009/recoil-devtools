@@ -54,8 +54,8 @@ const appendToGlobalRecoilState = (id, atomState) => {
   }
 };
 
-export default function DebugObserver() {
-  console.log(React.version);
+export function DebugObserver() {
+  console.log("inside lib", React.version);
   window.recoilDevtoolsHelper = {
     stateMap: {},
     atomsState: {},
