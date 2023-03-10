@@ -340,7 +340,7 @@ const processPayload = payload => {
   }
 };
 const getJSONDiff = (x, y) => {
-  const o = (0,dist.getDiff)(x, y);
+  const o = getDiff(x, y);
   return [...o.added.reduce((acc, e) => {
     acc.push(["+", e[0], e[1]]);
     return acc;
@@ -361,9 +361,13 @@ const storePayload = p => {
   const transitionDiff = {
     snapshotId: p.snapshotId,
     atomName: p.atomName,
-    value: p.atomValue,
-    diffValue: getJSONDiff(typeof oldValue === "undefined" || oldValue === null ? "" : oldValue, p.atomValue)
+    value: p.atomValue
+    // diffValue: getJSONDiff(
+    //   typeof oldValue === "undefined" || oldValue === null ? "" : oldValue,
+    //   p.atomValue
+    // ),
   };
+
   window.atomsStorage.currentState[p.atomName] = p.atomValue;
   window.atomsStorage.transitions.push(transitionDiff);
 };
