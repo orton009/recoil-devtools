@@ -14,6 +14,7 @@ module.exports = {
       import: path.resolve(__dirname, "./src/devtools/devtools.js"),
       filename: "../devtools.js",
     },
+    devtoolsController: path.resolve(__dirname, "./src/devtools/controller.js"),
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -39,9 +40,9 @@ module.exports = {
     minimize: false,
   },
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
+    static: path.join(__dirname, "dist"),
     port: 9000,
-    open: true,
+    hot: true,
   },
   plugins: [
     new CleanWebpackPlugin(),

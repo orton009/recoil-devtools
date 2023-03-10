@@ -7,6 +7,7 @@ import {
   messageType,
   sendMessageViaTabId,
 } from "../lib";
+import { initiateUI } from "./controller";
 
 console.log("loaded panel success!");
 
@@ -15,9 +16,7 @@ console.log("loaded panel success!");
     attachListener((msg) => {
       console.log("[msg: recieved from contentScript]", msg);
       try {
-        document.getElementById("content").innerHTML = JSON.stringify(
-          msg.payload
-        );
+        initiateUI(msg.payload);
       } catch (e) {
         console.log("[error in html connection]", e);
       }

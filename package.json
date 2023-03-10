@@ -10,7 +10,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack build",
-    "start": "webpack start",
+    "watch": "webpack --watch",
+    "start": "webpack serve --mode development",
     "make:lib": "webpack build --config webpack.config.lib.js"
   },
   "author": "",
@@ -27,15 +28,16 @@
     "webpack": "^5.68.0",
     "webpack-bundle-analyzer": "^4.8.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "4.7.4"
+    "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
     "json-difference": "^1.9.1",
+    "json-viewer-js": "^1.0.8",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
-    "recoil": "0.7.6",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "recoil": "0.7.6"
   }
 }

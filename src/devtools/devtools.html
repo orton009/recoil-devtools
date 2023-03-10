@@ -1,15 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uikit@3.16.4/dist/css/uikit.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.4/dist/js/uikit.min.js"></script>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="./devtools.js"></script>
+    <!-- <script src="./devtools.js"></script> -->
   </head>
-  <body>
-    Hi I am the panel !
-    <br />
-    <div id="content"></div>
+  <body style="overflow: none">
+    <div class="uk-section uk-section-primary">
+      <div class="uk-container uk-container-small">
+        <span class="uk-text-bold uk-text-primary"
+          >Recoil Devtools: Atoms State Observer</span
+        >
+      </div>
+    </div>
+    <div class="uk-flex uk-flex-row uk-height-viewport">
+      <div class="uk-tile uk-tile-secondary uk-padding-small" uk-scroll>
+        <ul class="uk-nav-default" uk-nav>
+          <li class="uk-parent uk-active" id="currentStateNavSelector">
+            <a href="#">Current State <span uk-nav-parent-icon></span></a>
+            <ul class="uk-nav-sub" id="currentStateNavChilds"></ul>
+          </li>
+          <li class="uk-parent" id="transitionNavSelector">
+            <a href="#">State Transitions </a>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="uk-tile uk-tile-default uk-padding-small uk-width-1-1"
+        uk-scroll
+      >
+        <div id="data-container">Content will come here!</div>
+        <ul
+          class="uk-list"
+          id="transition-container"
+          style="display: none"
+        ></ul>
+      </div>
+    </div>
+
+    <script src="http://localhost:9000/devtoolsController.js"></script>
   </body>
 </html>

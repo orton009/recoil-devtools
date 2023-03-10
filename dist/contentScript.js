@@ -361,6 +361,7 @@ const storePayload = p => {
   const transitionDiff = {
     snapshotId: p.snapshotId,
     atomName: p.atomName,
+    value: p.atomValue,
     diffValue: getJSONDiff(typeof oldValue === "undefined" || oldValue === null ? "" : oldValue, p.atomValue)
   };
   window.atomsStorage.currentState[p.atomName] = p.atomValue;
